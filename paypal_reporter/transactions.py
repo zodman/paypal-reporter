@@ -29,6 +29,7 @@ def send_request(credentials, start_datetime, end_datetime):
         credentials,
         VERSION=PAYPAL_VERSION,
         METHOD='TransactionSearch',
+        TRANSACTIONCLASS='Received',
         STARTDATE=start_datetime.isoformat() + 'Z',
         ENDDATE=end_datetime.isoformat() + 'Z'
     )
@@ -109,9 +110,11 @@ def _date_range():
     Returns a tuple (start_datetime, end_datetime) covering the previous month. 
     '''
     d = date.today()
-    end_datetime = datetime(d.year, d.month, 1) - timedelta(days=1)
+    #$end_datetime = datetime(d.year, d.month, 1) - timedelta(days=1)
+    end_datetime = datetime(d.year, d.month-1, 1) - timedelta(days=1)
     start_datetime = end_datetime.replace(day=1)
-    end_datetime += timedelta(hours=23, minutes=59, seconds=59)
+    end_datetime =   datetime(d.year, d.month, 1) - timedelta(days=1) +   timedelta(hours=23, minutes=59, seconds=59)
+    #end_datetime +=    timedelta(hours=23, minutes=59, seconds=59)
     return (start_datetime, end_datetime)   
 
 
